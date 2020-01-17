@@ -1,0 +1,89 @@
+<launch>
+
+
+    <!-- INPUT ARGUMENTS -->
+
+    <arg name="odom_topic" default="/pioneer/pose"/>
+    <arg name="imu_topic" default=""/>
+    <arg name="vo_topic" default="/realsense/pose"/>
+    <arg name="ekf_used" default="true"/>
+    <arg name="imu_name" default=""/>
+
+
+    <!-- COMPLEMENTARY_FILTER -->
+
+    <!--node name="complementary_filter$(arg imu_name)"
+          pkg="imu_complementary_filter"
+          type="complementary_filter_node"
+          output="screen"
+          if="$(eval imu_topic != '')"-->
+          <!--launch-prefix="bash -c 'sleep 2.0; $0 $@' "-->
+        <!--remap from="/imu/data" to="/imu$(arg imu_name)/data"/>
+        <remap from="/imu/data_raw" to="$(arg imu_topic)"/>
+    </node-->
+
+
+    <!-- GLOBAL CHANGES -->
+
+    <node name="add_covariance$(arg imu_name)"
+          pkg="robot_pose_ekf_modified"
+          type="add_covariance.py"
+          output="screen"
+          args="$(arg odom_topic) /imu$(arg imu_name)/data $(arg vo_topic) $(arg imu_name)">
+          <!--launch-prefix="bash -c 'sleep 2.5; $0 $@' "/-->
+    </node>
+
+
+      <!-- XSENS TRANSFORM -->
+      <node name="tf_xsens"
+            pkg="tf"
+            type="static_transform_publisher"
+            args="0.0 0.0 0.3 0.0 0.0 0.0 base_link xsens 60"/>
+
+
+      <!-- OUSTER TRANSFORM -->
+      <node name="tf_ouster"
+            pkg="tf"
+            type="static_transform_publisher"
+            args="0.0 0.0 0.5 0.0 0.0 0.0 base_link ouster 60"/>
+
+
+      <!-- REALSENSE TRANSFORM -->
+      <node name="tf_realsense"
+            pkg="tf"
+            type="static_transform_publisher"
+            args="0.3 0.0 0.2 0.0 0.0 0.0 base_link realsense 60"/>
+
+
+      <!-- PIONEER TRANSFORM -->
+      <node name="tf_pioneer"
+            pkg="tf"
+            type="static_transform_publisher"
+            args="0.0 0.0 0.0 0.0 0.0 0.0 base_link odom 60"/>
+
+    <!-- ROBOT_POSE_EKF -->
+
+    <!--node name="robot_pose_ekf_$(arg imu_name)" pkg="robot_pose_ekf" type="robot_pose_ekf" output="screen" if="$(arg ekf_used)" launch-prefix="bash -c 'sleep 3.0; $0 $@' ">
+
+        <param name="output_frame" value="odom_combined"/>
+        <param name="base_footprint_frame" value="base_footprint"/>
+        <param name="freq" value="30.0"/>
+        <param name="sensor_timeout" value="1.0"/>  
+        <param name="odom_used" value="true"/>
+        <param name="imu_used" value="$(eval imu_name != 'noimu')"/>
+        <param name="vo_used" value="true"/>
+
+        <remap from="/odom" to="/robot_pose_ekf_$(arg imu_name)/odom"/>
+        <remap from="/imu_data" to="/robot_pose_ekf_$(arg imu_name)/imu_data"/>
+        <remap from="/vo" to="/robot_pose_ekf_$(arg imu_name)/vo"/>
+        <remap from="/robot_pose_ekf_$(arg imu_name)/odom_combined" to="/robot_pose_ekf_$(arg imu_name)/pose_combined"/>
+
+    </node-->
+
+
+    <!-- ROBOT_POSE_EKF CHANGES -->
+
+    <!--node name="change_output_$(arg imu_name)" pkg="robot_pose_ekf_rafael" type="change_output.py" output="screen"  args="$(arg imu_name)" launch-prefix="bash -c 'sleep 3.5; $0 $@' "/-->
+
+
+</launch>

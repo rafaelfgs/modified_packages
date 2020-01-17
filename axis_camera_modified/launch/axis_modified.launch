@@ -1,0 +1,32 @@
+<launch>
+
+    <arg name="camera_name" default="axis" />
+
+    <arg name="hostname" default="192.168.1.133"/>
+    <arg name="width" default="1280"/>
+    <arg name="height" default="720"/>
+    <arg name="frame_id" default="axis_camera"/>
+    <arg name="enable_ptz" default="false" />
+    <arg name="enable_republish" default="false" />
+    <arg name="enable_proc" default="false" />
+
+    <group ns="$(arg camera_name)">
+
+        <param name="hostname" value="$(arg hostname)"/>
+        <param name="width" value="$(arg width)"/>
+        <param name="height" value="$(arg height)"/>
+        <param name="frame_id" value="$(arg frame_id)"/>
+
+        <node pkg="axis_camera_modified" type="axis.py" name="axis_node" output="screen"/>
+
+        <node pkg="axis_camera_modified" type="axis_ptz.py" name="axis_ptz" if="$(arg enable_ptz)"/>
+
+        <node name="republish" type="republish" pkg="image_transport" args="compressed in:=/axis/image_raw raw out:=/axis/image_raw" if="$(arg enable_republish)"/>
+
+        <node name="image_proc" pkg="image_proc" type="image_proc" if="$(arg enable_proc)"/>
+
+        <!--node pkg="tf" type="static_transform_publisher" name="video_link_broadcaster" args="0 0 0 0 0 0 1 map $(arg frame_id) 30"/-->
+
+    </group>
+
+</launch>
