@@ -1,0 +1,47 @@
+<launch>
+
+    <arg name="camera" default="rs_d435"/>
+
+    <include file="$(find realsense2_camera)/launch/rs_d435_camera_with_model.launch">
+
+        <arg name="depth_width"         value="640"/>
+        <arg name="depth_height"        value="480"/>
+        <arg name="infra_width"         value="640"/>
+        <arg name="infra_height"        value="480"/>
+        <arg name="color_width"         value="640"/>
+        <arg name="color_height"        value="480"/>
+
+        <arg name="fisheye_fps"         value="30"/>
+        <arg name="depth_fps"           value="30"/>
+        <arg name="infra_fps"           value="30"/>
+        <arg name="color_fps"           value="30"/>
+        <arg name="gyro_fps"            value="400"/>
+        <arg name="accel_fps"           value="250"/>
+
+        <arg name="camera"              value="$(arg camera)"/>
+        <arg name="align_depth"         value="true"/>
+        <arg name="enable_pointcloud"   value="true"/>
+        <arg name="linear_accel_cov"    value="1.0"/>
+        <arg name="unite_imu_method"    value="linear_interpolation"/>
+
+    </include>
+
+    <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
+        <arg name="args"                    value="--delete_db_on_start"/>
+        <arg name="rgb_topic"               value="/$(arg camera)/color/image_raw"/>
+        <arg name="depth_topic"             value="/$(arg camera)/aligned_depth_to_color/image_raw"/>
+        <arg name="camera_info_topic"       value="/$(arg camera)/color/camera_info"/>
+        <arg name="depth_camera_info_topic" value="/$(arg camera)/depth/camera_info"/>
+        <arg name="imu_topic"               value="rtabmap/imu/data"/>
+        <arg name="gps_topic"               value="rtabmap/gps/fix"/>
+        <arg name="map_frame_id"            value="rs_d435_map"/>
+        <arg name="frame_id"                value="$(arg camera)_link"/>
+        <arg name="rtabmapviz"              value="false"/>
+        <arg name="rviz"                    value="false"/>
+    </include>
+
+    <group ns="$(arg camera)">
+
+    </group>
+
+</launch>

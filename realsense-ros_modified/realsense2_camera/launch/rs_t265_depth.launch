@@ -1,0 +1,9 @@
+<launch>
+
+    <node pkg="realsense-ros_modified" type="rs_t265_depth.py" name="rs_depth_node" output="screen"/>
+
+    <node pkg="image_transport" type="republish" name="republish1_node" args="compressed in:=/realsense/fisheye1/image_raw raw out:=/realsense/fisheye1/image_raw"/>
+
+    <node pkg="image_transport" type="republish" name="republish2_node" args="compressed in:=/realsense/fisheye2/image_raw raw out:=/realsense/fisheye2/image_raw"/>
+
+</launch>
