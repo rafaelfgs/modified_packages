@@ -1,0 +1,70 @@
+<launch>
+
+    <!-- DEFAULT PARAMETERS FOR AXIS -->
+
+    <arg name="name_front" default="axis_front"/>
+    <arg name="name_back"  default="axis_back"/>
+
+    <arg name="ip_front" default="192.168.1.11"/>
+    <arg name="ip_back"  default="192.168.1.10"/>
+
+    <arg name="username" default="root"/>
+    <arg name="password" default="root"/>
+    <arg name="width"    default="1280"/>
+    <arg name="height"   default="720"/>
+
+    <arg name="enable_republish" default="true"/>
+    <arg name="enable_proc"      default="true"/>
+    <arg name="enable_ptz"       default="false"/>
+
+
+
+    <!-- FRONT AXIS -->
+
+    <group ns="$(arg name_front)" unless="$(arg name_front)==''">
+
+        <param name="hostname" value="$(arg ip_front)"/>
+        <param name="username" value="$(arg username)"/>
+        <param name="password" value="$(arg password)"/>
+        <param name="width"    value="$(arg width)"/>
+        <param name="height"   value="$(arg height)"/>
+        <param name="frame_id" value="$(arg name_front)_optical_frame"/>
+
+        <node pkg="axis_camera" type="axis.py" name="axis_front_node" output="screen"/>
+
+        <node pkg="axis_camera" type="axis_ptz.py" name="axis_ptz" if="$(arg enable_ptz)"/>
+
+        <node pkg="image_transport" type="republish" name="republish" args="compressed in:=/$(arg name_front)/image_raw raw out:=/$(arg name_front)/image_raw" if="$(arg enable_republish)"/>
+
+        <node pkg="image_proc" type="image_proc" name="image_proc" if="$(arg enable_proc)"/>
+
+        <node pkg="tf" type="static_transform_publisher" name="tf_axisfront_opticalframe" args="0 0 0 0.5 -0.5 0.5 -0.5 $(arg name_front)_link $(arg name_front)_optical_frame"/>
+
+    </group>
+
+
+
+    <!-- BACK AXIS -->
+
+    <group ns="$(arg name_back)" if="$(arg enable_back)">
+
+        <param name="hostname" value="$(arg ip_back)"/>
+        <param name="username" value="$(arg username)"/>
+        <param name="username" value="$(arg username)"/>
+        <param name="width"    value="$(arg width)"/>
+        <param name="height"   value="$(arg height)"/>
+        <param name="frame_id" value="$(arg name_back)_optical_frame"/>
+
+        <node pkg="axis_camera" type="axis.py" name="axis_back_node" output="screen"/>
+
+        <node pkg="axis_camera" type="axis_ptz.py" name="axis_ptz" if="$(arg enable_ptz)"/>
+
+        <node pkg="image_transport" type="republish" name="republish" args="compressed in:=/$(arg name_back)/image_raw raw out:=/$(arg name_back)/image_raw" if="$(arg enable_republish)"/>
+
+        <node pkg="image_proc" type="image_proc" name="image_proc" if="$(arg enable_proc)"/>
+
+        <node pkg="tf" type="static_transform_publisher" name="tf_axisback_opticalframe" args="0 0 0 -0.5 -0.5 0.5 0.5 $(arg name_back)_link $(arg name_back)_optical_frame"/>
+
+    </group>
+
+</launch>
