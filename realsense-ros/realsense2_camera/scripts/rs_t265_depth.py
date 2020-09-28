@@ -1,3 +1,5 @@
+# Based on https://github.com/IntelRealSense/librealsense/blob/master/wrappers/python/examples/t265_stereo.py
+
 #!/usr/bin/python
 
 import rospy
