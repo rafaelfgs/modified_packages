@@ -42,10 +42,10 @@
         <arg name = "odom_topic"              value = "/rtabmap/odom"/>
         <arg name = "imu_topic"               value = "/rtabmap/imu"/>
         <arg name = "map_frame_id"            value = "rtab_init"/>
-        <arg name = "frame_id"                value = "rtab_odom"/>
+        <arg name = "frame_id"                value = "rtab_pose"/>
         <arg name = "use_sim_time"            value = "true"/>
-        <arg name = "rtabmapviz"              value = "true"/>
-        <arg name = "rviz"                    value = "false"/>
+        <arg name = "rtabmapviz"              value = "false"/>
+        <arg name = "rviz"                    value = "true"/>
 
     </include>
 
