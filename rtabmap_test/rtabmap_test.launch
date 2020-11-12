@@ -1,0 +1,57 @@
+<launch>
+
+
+  <arg name = "rgb_compressed"     default = "true"/>
+  <arg name = "depth_compressed"   default = "false"/>
+
+  <arg name = "in_rgb_img"         default = "/d435i/color/image_raw"/>
+  <arg name = "in_rgb_info"        default = "/d435i/color/camera_info"/>
+  <arg name = "in_depth_img"       default = "/d435i/aligned_depth_to_color/image_raw"/>
+  <arg name = "in_depth_info"      default = "/d435i/aligned_depth_to_color/camera_info"/>
+
+  <arg name = "rtab_rgb_img"       default = "/rtabmap/rgb/image_raw"/>
+  <arg name = "rtab_rgb_info"      default = "/rtabmap/rgb/camera_info"/>
+  <arg name = "rtab_depth_img"     default = "/rtabmap/depth/image_raw"/>
+  <arg name = "rtab_depth_info"    default = "/rtabmap/depth/camera_info"/>
+
+
+  <node pkg  = "image_transport"
+        type = "republish"
+        name = "rgb_compress"
+        output = "screen"
+        if = "$(arg rgb_compressed)"
+        args = "compressed in:=$(arg in_rgb_img)
+                raw out:=$(arg in_rgb_img)">
+  </node>
+
+
+  <node pkg  = "image_transport"
+        type = "republish"
+        name = "rgb_compress"
+        output = "screen"
+        if = "$(arg depth_compressed)"
+        args = "compressedDepth in:=$(arg in_depth_img)
+                raw out:=$(arg in_depth_img)">
+  </node>
+
+
+  <node pkg = "rtabmap_test"
+        type = "rtab_broadcaster.py"
+        name = "rtab_broadcaster_node"
+        output = "screen"
+        args = "_topic:='CameraInfo $(arg rtab_rgb_info)'">
+  </node>
+
+
+  <node pkg = "rtabmap_test"
+        type = "topic_repub.py"
+        name = "rtab_repub_node"
+        output = "screen"
+        args = "_topics:='Imu        /imu/data            /rtabmap/imu           rtab_imu
+                          Image      $(arg in_rgb_img)    $(arg rtab_rgb_img)    rtab_rgb
+                          CameraInfo $(arg in_rgb_info)   $(arg rtab_rgb_info)   rtab_rgb
+                          Image      $(arg in_depth_img)  $(arg rtab_depth_img)  rtab_depth
+                          CameraInfo $(arg in_depth_info) $(arg rtab_depth_info) rtab_depth'">
+  </node>
+
+</launch>
