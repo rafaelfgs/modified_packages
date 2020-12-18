@@ -1,0 +1,46 @@
+<launch>
+
+  <param name = "use_sim_time"     type = "bool" value = "true"/>
+
+  <arg name = "topic_odom"         default = "/rtabmap/odom"/>
+  <arg name = "topic_imu"          default = "/rtabmap/imu"/>
+  <arg name = "topic_rgb_img"      default = "/rtabmap/rgb/image_raw"/>
+  <arg name = "topic_rgb_info"     default = "/rtabmap/rgb/camera_info"/>
+  <arg name = "topic_depth_img"    default = "/rtabmap/depth/image_raw"/>
+  <arg name = "topic_depth_info"   default = "/rtabmap/depth/camera_info"/>
+
+  <arg name = "frame_odom"         default = "rtab_odom"/>
+  <arg name = "frame_pose"         default = "rtab_pose"/>
+
+  <arg name = "wait_duration"      default = "0.2"/>
+  <arg name = "approx_sync"        default = "true"/>
+  <arg name = "queue_size"         default = "10"/>
+
+  <group ns = "rtabmap">
+
+    <node pkg = "rtabmap_ros"
+          type = "rtabmapviz"
+          name = "rtabmapviz"
+          output = "screen"
+          args = "-d ~/.ros/rtabmap_gui.ini">
+
+      <remap from = "rgb/image"                   to = "$(arg topic_rgb_img)"/>
+      <remap from = "depth/image"                 to = "$(arg topic_depth_img)"/>
+      <remap from = "rgb/camera_info"             to = "$(arg topic_rgb_info)"/>
+      <remap from = "imu"                         to = "$(arg topic_imu)"/>
+      <remap from = "odom"                        to = "$(arg topic_odom)"/>
+
+      <param name = "subscribe_depth"             type = "bool"   value = "true"/>
+      <param name = "subscribe_odom_info"         type = "bool"   value = "true"/>
+
+      <param name = "odom_frame_id"               type = "string" value = "$(arg frame_pose)"/>
+      <param name = "frame_id"                    type = "string" value = "$(arg frame_odom)"/>
+      <param name = "wait_for_transform_duration" type = "double" value = "$(arg wait_duration)"/>
+      <param name = "approx_sync"                 type = "bool"   value = "$(arg approx_sync)"/>
+      <param name = "queue_size"                  type = "int"    value = "$(arg queue_size)"/>
+
+    </node>
+
+  </group>
+
+</launch>

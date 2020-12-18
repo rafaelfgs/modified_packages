@@ -17,9 +17,9 @@ class Odom2Init:
         
         self.odom = Odometry()
         rospy.Subscriber(self.topic, Odometry, self.callback)
-        self.pub = rospy.Publisher(self.topic+'_init', Odometry, queue_size=10)
+        self.pub = rospy.Publisher(self.topic+'_chassis', Odometry, queue_size=10)
         
-        rospy.loginfo("Republishing %s to chassis_init", self.topic)
+        rospy.loginfo("Republishing %s with respect to chassis", self.topic)
     
     
     def callback(self, data):
