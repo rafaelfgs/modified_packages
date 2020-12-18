@@ -1,0 +1,40 @@
+<launch>
+
+    <node pkg = "pcl_ros"
+          type = "pcd_to_pointcloud"
+          name = "legoloam_cloud_node"
+          args = "/mnt/WD500/UFMG/JINT/NEW/short/cave_short_legoloam_new.pcd 1.0
+                  cloud_pcd:=/legoloam/points2 _frame_id:=base_init"
+          output = "screen">
+    </node>
+
+    <node pkg = "point_cloud_converter"
+          type = "point_cloud_converter_node"
+          name = "egoloam_converter_node"
+          args = "points2_in:=legoloam/points2 points_out:=legoloam/points"
+          output = "screen">
+    </node>
+
+    <node pkg = "pcl_ros"
+          type = "pcd_to_pointcloud"
+          name = "rtabmap_cloud_node"
+          args = "/mnt/WD500/UFMG/JINT/NEW/short/cave_short_rtabmap_new.pcd 1.0
+                  cloud_pcd:=/rtabmap/points2 _frame_id:=base_init"
+          output = "screen">
+    </node>
+
+    <node pkg = "point_cloud_converter"
+          type = "point_cloud_converter_node"
+          name = "rtabmap_converter_node"
+          args = "points2_in:=rtabmap/points2 points_out:=rtabmap/points"
+          output = "screen">
+    </node>
+
+    <node pkg = "rviz"
+          type = "rviz"
+          name = "rviz_node"
+          args = "-d /home/rafael/Dropbox/UFMG/Results/2011_JINT/cloud_pcd.rviz"
+          output = "screen">
+    </node>
+
+</launch>
