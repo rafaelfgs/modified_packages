@@ -2,7 +2,7 @@
 
 
   <arg name = "rgb_compressed"     default = "true"/>
-  <arg name = "depth_compressed"   default = "false"/>
+  <arg name = "depth_compressed"   default = "true"/>
 
   <arg name = "in_rgb_img"         default = "/d435i/color/image_raw"/>
   <arg name = "in_rgb_info"        default = "/d435i/color/camera_info"/>

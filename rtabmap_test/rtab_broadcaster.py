@@ -15,7 +15,7 @@ tfs = [[(0.0, 0.0, 0.0), ( 0.0,  0.0,  0.0,  1.0), "chassis_init", "rtab_init"  
        [(0.0, 0.0, 0.0), ( 0.0,  0.0,  0.0,  1.0), "rtab_odom",    "rtab_chassis"],
        [(0.0, 0.0, 0.0), ( 0.0,  0.0,  0.0,  1.0), "rtab_chassis", "rtab_imu"    ]]
 
-freq = 10
+freq = 10.0
 t = 0.0
 
 
