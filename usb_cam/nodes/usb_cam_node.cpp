@@ -100,7 +100,7 @@ public:
     node_.param("image_height", image_height_, 480);
     node_.param("framerate", framerate_, 30);
     // possible values: yuyv, uyvy, mjpeg, yuvmono10, rgb24
-    node_.param("pixel_format", pixel_format_name_, std::string("mjpeg"));
+    node_.param("pixel_format", pixel_format_name_, std::string("yuyv"));
     // enable/disable autofocus
     node_.param("autofocus", autofocus_, false);
     node_.param("focus", focus_, -1); //0-255, -1 "leave alone"
