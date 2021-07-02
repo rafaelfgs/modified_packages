@@ -8,6 +8,8 @@ project(rtabmap_test)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
+  image_transport
   roscpp
   rospy
   std_msgs
@@ -124,6 +126,8 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/rtabmap_test.cpp
 # )
+
+add_library(oak_image_filtering src/oak_image_filtering.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

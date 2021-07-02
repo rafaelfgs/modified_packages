@@ -9,10 +9,10 @@
   <arg name = "visual_slam"        default = "true"/>
   <arg name = "rtabmapviz"         default = "true"/>
 
-  <arg name = "rgb_img"            default = "/stereo_rgb_node/color/image"/>
-  <arg name = "rgb_info"           default = "/stereo_rgb_node/color/camera_info"/>
-  <arg name = "depth_img"          default = "/stereo_rgb_node/stereo/image"/>
-  <arg name = "depth_info"         default = "/stereo_rgb_node/stereo/camera_info"/>
+  <arg name = "rgb_img"            default = "/stereo_rgb_node/filtered/color/image"/>
+  <arg name = "rgb_info"           default = "/stereo_rgb_node/filtered/color/camera_info"/>
+  <arg name = "depth_img"          default = "/stereo_rgb_node/filtered/depth/image"/>
+  <arg name = "depth_info"         default = "/stereo_rgb_node/filtered/depth/camera_info"/>
   <arg name = "imu"                default = "/imu/data"/>
   <arg name = "odom"               default = "/rtabmap/odom"/>
 
@@ -33,13 +33,13 @@
   <arg name = "frame_odom"         default = "rtab_odom"/>
   <arg name = "frame_pose"         default = "rtab_pose"/>
 
-  <arg name = "min_dist"           default = "11"/>
+  <arg name = "min_dist"           default = "7"/>
   <arg name = "gravity_sigma"      default = "0.3"/>
-  <arg name = "holonomic"          default = "false"/>
-  <arg name = "reset_countdown"    default = "1"/>
-  <arg name = "start_new_map"      default = "true"/>
+  <arg name = "holonomic"          default = "true"/>
+  <arg name = "reset_countdown"    default = "-1"/>
+  <arg name = "start_new_map"      default = "false"/>
   <arg name = "strategy"           default = "1"/>
-  <arg name = "optimize_max_error" default = "6.0"/>
+  <arg name = "optimize_max_error" default = "4.0"/>
 
   <arg name = "wait_duration"      default = "0.2"/>
   <arg name = "publish_tf"         default = "true"/>

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import rospy
-import numpy
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry, Path
 from sensor_msgs.msg import CameraInfo, CompressedImage, Image, Imu, JointState, LaserScan, PointCloud, PointCloud2
@@ -23,12 +22,7 @@ class Repub:
     
     
     def callback(self, data, topic):
-        data.header.stamp = rospy.Time.now()
         data.header.frame_id = topic[3]
-        if hasattr(data, 'D'):
-            if len(data.D) > 8:
-                data.header.stamp = rospy.Time.now()
-                data.D = data.D[:8]
         pub = rospy.Publisher(topic[2], topic[0], queue_size=10)
         pub.publish(data)
 
