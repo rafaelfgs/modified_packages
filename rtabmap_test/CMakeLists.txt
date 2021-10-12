@@ -127,7 +127,8 @@ include_directories(
 #   src/${PROJECT_NAME}/rtabmap_test.cpp
 # )
 
-add_library(oak_image_filtering src/oak_image_filtering.cpp)
+add_executable(oak_image_filtering oak_image_filtering.cpp)
+target_link_libraries(oak_image_filtering ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

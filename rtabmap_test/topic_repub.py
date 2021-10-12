@@ -22,6 +22,7 @@ class Repub:
     
     
     def callback(self, data, topic):
+        if topic[1] == "/odom": data.child_frame_id = "rtab_odom"
         data.header.frame_id = topic[3]
         pub = rospy.Publisher(topic[2], topic[0], queue_size=10)
         pub.publish(data)

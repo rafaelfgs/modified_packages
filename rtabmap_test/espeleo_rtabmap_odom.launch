@@ -1,23 +1,23 @@
 <launch>
 
 
-  <param name = "use_sim_time"     value = "false"/>
+  <param name = "use_sim_time"     value = "true"/>
 
-  <arg name = "rgb_compressed"     default = "false"/>
-  <arg name = "depth_compressed"   default = "false"/>
+  <arg name = "rgb_compressed"     default = "true"/>
+  <arg name = "depth_compressed"   default = "true"/>
   <arg name = "rgbd_odometry"      default = "true"/>
   <arg name = "visual_slam"        default = "true"/>
   <arg name = "rtabmapviz"         default = "true"/>
 
-  <arg name = "rgb_img"            default = "/stereo_rgb_node/filtered/color/image"/>
-  <arg name = "rgb_info"           default = "/stereo_rgb_node/filtered/color/camera_info"/>
-  <arg name = "depth_img"          default = "/stereo_rgb_node/filtered/depth/image"/>
-  <arg name = "depth_info"         default = "/stereo_rgb_node/filtered/depth/camera_info"/>
+  <arg name = "rgb_img"            default = "/d435i/color/image_raw"/>
+  <arg name = "rgb_info"           default = "/d435i/color/camera_info"/>
+  <arg name = "depth_img"          default = "/d435i/aligned_depth_to_color/image_raw"/>
+  <arg name = "depth_info"         default = "/d435i/aligned_depth_to_color/camera_info"/>
   <arg name = "imu"                default = "/imu/data"/>
-  <arg name = "odom"               default = "/rtabmap/odom"/>
+  <arg name = "odom"               default = "/odom"/>
 
-  <arg name = "cam_tf"             default = "0.00 0 0.00 0 0 0 1"/>
-  <arg name = "imu_tf"             default = "0.00 0 0.00 0 0 0 1"/>
+  <arg name = "cam_tf"             default = "0.27 0 0.07 0 0 0 1"/>
+  <arg name = "imu_tf"             default = "0.00 0 0.09 0 0 0 1"/>
 
   <arg name = "topic_odom"         default = "/rtabmap/odom"/>
   <arg name = "topic_imu"          default = "/rtabmap/imu"/>
@@ -33,13 +33,13 @@
   <arg name = "frame_odom"         default = "rtab_odom"/>
   <arg name = "frame_pose"         default = "rtab_pose"/>
 
-  <arg name = "min_dist"           default = "7"/>
+  <arg name = "min_dist"           default = "11"/>
   <arg name = "gravity_sigma"      default = "0.3"/>
-  <arg name = "holonomic"          default = "true"/>
+  <arg name = "holonomic"          default = "false"/>
   <arg name = "reset_countdown"    default = "1"/>
-  <arg name = "start_new_map"      default = "false"/>
+  <arg name = "start_new_map"      default = "true"/>
   <arg name = "strategy"           default = "1"/>
-  <arg name = "optimize_max_error" default = "4.0"/>
+  <arg name = "optimize_max_error" default = "6.0"/>
 
   <arg name = "wait_duration"      default = "0.2"/>
   <arg name = "publish_tf"         default = "true"/>
@@ -72,7 +72,8 @@
         type = "topic_repub.py"
         name = "rtab_repub_node"
         output = "screen"
-        args = "_topics:='Imu        $(arg imu)        $(arg topic_imu)        $(arg frame_imu)
+        args = "_topics:='Odometry   $(arg odom)       $(arg topic_odom)       $(arg frame_pose)
+                          Imu        $(arg imu)        $(arg topic_imu)        $(arg frame_imu)
                           Image      $(arg rgb_img)    $(arg topic_rgb_img)    $(arg frame_rgb)
                           CameraInfo $(arg rgb_info)   $(arg topic_rgb_info)   $(arg frame_rgb)
                           Image      $(arg depth_img)  $(arg topic_depth_img)  $(arg frame_depth)
@@ -88,12 +89,12 @@
   </node>
 
 
-  <node pkg = "rtabmap_test"
-        type = "oak_image_filtering"
-        name = "oak_image_filtering_node"
+  <!--node pkg = "rtabmap_test"
+        type = "rtab_to_init.py"
+        name = "rtab_to_init_node"
         output = "screen"
-        args = "_mask_size:=15 _min_range:=0.8 _max_range:=6.0 _publish_rate:=15">
-  </node>
+        args = "_topic:='$(arg topic_odom)' _tf:='$(arg cam_tf)'">
+  </node-->
 
 
   <group ns = "rtabmap">

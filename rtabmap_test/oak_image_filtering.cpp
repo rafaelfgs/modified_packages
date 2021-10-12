@@ -281,7 +281,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "image_filtering_node");
+    ros::init(argc, argv, "oak_image_filtering_node");
 
     ros::NodeHandle nh("~");
 
